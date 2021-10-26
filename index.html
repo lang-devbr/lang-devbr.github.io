@@ -1,8 +1,57 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
     <head>
         <title>lang-codes</title>
+        <script>
+            var apiUrl = 'https://api.github.com/users/lang-codes/repos';
+            fetch(apiUrl).then(response => {
+            return response.json();
+            }).then(data => {
+            // Work with JSON data here
+            console.log(data);
+
+            for(item in data){
+                console.log(data[item].name);
+
+                var node = document.createElement("li");
+                var link = document.createElement("a");
+                link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
+                link.text = data[item].name;
+                link.target = "_blank";
+                node.appendChild(link);
+                document.getElementById("listRepos").appendChild(node); 
+            }
+            }).catch(err => {
+            // Do something for an error here
+            });
+        </script>
     </head>
     <body>
-        <p>Soon...</p>
+        <center>
+        <img alt="perfil" src="images/perfil.jpeg" style="border-radius: 50%;" width="200" />
+        <p>Find me on LinkedIn or Github:</p>
+        <a href="https://github.com/lang-codes" target="_blank">
+            <img alt="github" src="images/github.png" width="50"/>
+        </a>
+        <a href="https://www.linkedin.com/in/luiz-lang-07786457/" target="_blank">
+            <img alt="linkedin" src="images/linkedin.png" width="50"/>
+        </a>
+        
+        <p>Check some of my repositories on github:</p>
+        <ul id="listRepos" style="list-style: none;"></ul>
+        <p>===================================</p>
+        <p style="font-size:small;">
+            © Copyright - <span id="copyYear"></span>
+        </p>
+        </center>
+        <script>
+            function setCopyrightYear(){
+                var copyYear = document.getElementById("copyYear");
+                var year = new Date().getFullYear();
+                copyYear.innerHTML = year.toString();
+            }
+
+            setCopyrightYear();
+        </script>
     </body>
 </html>
