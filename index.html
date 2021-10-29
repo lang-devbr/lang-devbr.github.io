@@ -3,37 +3,11 @@
     <head>
         <title>lang-codes</title>
         <link rel="shortcut icon" href="favicon.ico" />
-        <script>
-            var apiUrl = 'https://api.github.com/users/lang-codes/repos';
-            fetch(apiUrl).then(response => {
-            return response.json();
-            }).then(data => {
-            // Work with JSON data here
-            console.log(data);
-
-            for(item in data){
-                console.log(data[item].name);
-
-                var node = document.createElement("li");
-                var link = document.createElement("a");
-                link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
-                link.text = data[item].name;
-                link.target = "_blank";
-                node.appendChild(link);
-                document.getElementById("listRepos").appendChild(node); 
-            }
-            }).catch(err => {
-            // Do something for an error here
-                var node = document.createElement("li");
-                var textNode = document.createTextNode(err);
-                node.appendChild(textNode);
-                document.getElementById("listRepos").appendChild(node); 
-            });
-        </script>
     </head>
     <body>
         <center>
-        <img alt="perfil" src="images/perfil.jpeg" style="border-radius: 50%;border: 1px solid #0000002f;" width="200" />
+        <img id="imgPerfil" alt="perfil" style="border-radius: 50%;border: 1px solid #0000002f;" width="200" />
+        <span id="userInfo"></span>
         <p>===================================</p>
         <p>Find me on LinkedIn or Github:</p>
         <div style="width: 100%; display: inline-block;">
@@ -56,13 +30,71 @@
         </p>
         </center>
         <script>
+
+            setCopyrightYear();
+            getReposInfo();
+            getOwnerInfo();
+
             function setCopyrightYear(){
                 var copyYear = document.getElementById("copyYear");
                 var year = new Date().getFullYear();
                 copyYear.innerHTML = year.toString();
             }
 
-            setCopyrightYear();
+
+            function getOwnerInfo(){
+                        var apiUrl = 'https://api.github.com/users/lang-codes';
+                        fetch(apiUrl).then(response => {
+                        return response.json();
+                        }).then(data => {
+
+                        var imgPerfil = document.getElementById("imgPerfil");
+                        imgPerfil.setAttribute("src", data.avatar_url);
+                        
+                        var userInfo = document.getElementById("userInfo");
+                        var name = document.createElement("p");
+                        var bio = document.createElement("p");
+                        var work = document.createElement("p");
+                        var email = document.createElement("p");
+
+                        name.innerHTML = data.name;
+                        bio.innerHTML = data.bio;
+                        work.innerHTML = data.company;
+                        email.innerHTML = data.email;
+
+                        userInfo.appendChild(name);
+                        userInfo.appendChild(bio);
+                        userInfo.appendChild(work);
+                        userInfo.appendChild(email);
+
+                        }).catch(err => {
+                            console.log(err);
+                        });
+            }
+
+            function getReposInfo(){
+                        var apiUrl = 'https://api.github.com/users/lang-codes/repos';
+                        fetch(apiUrl).then(response => {
+                        return response.json();
+                        }).then(data => {
+                        console.log(data);
+                        
+                        for(item in data){
+                            var node = document.createElement("li");
+                            var link = document.createElement("a");
+                            link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
+                            link.text = data[item].name;
+                            link.target = "_blank";
+                            node.appendChild(link);
+                            document.getElementById("listRepos").appendChild(node); 
+                        }
+                        }).catch(err => {
+                            var node = document.createElement("li");
+                            var textNode = document.createTextNode(err);
+                            node.appendChild(textNode);
+                            document.getElementById("listRepos").appendChild(node); 
+                        });
+            }
         </script>
     </body>
 </html>
