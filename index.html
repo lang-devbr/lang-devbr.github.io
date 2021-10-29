@@ -77,8 +77,7 @@
                         fetch(apiUrl).then(response => {
                         return response.json();
                         }).then(data => {
-                        console.log(data);
-                        
+                       
                         for(item in data){
                             var node = document.createElement("li");
                             var link = document.createElement("a");
