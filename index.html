@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <title>lang-codes</title>
+        <title>lang-devbr</title>
         <link rel="shortcut icon" href="favicon.ico" />
     </head>
     <body>
@@ -12,7 +12,7 @@
         <p>Find me on LinkedIn or Github:</p>
         <div style="width: 100%; display: inline-block;">
             <div style="display: inline-block;">
-                <a href="https://github.com/lang-codes" target="_blank">
+                <a href="https://github.com/lang-devbr" target="_blank">
                     <img alt="github" src="images/github.png" width="50"/>
                 </a>
             </div>
@@ -31,6 +31,7 @@
         </center>
         <script>
 
+            var apiUrl = 'https://api.github.com/users/lang-devbr';
             setCopyrightYear();
             getReposInfo();
             getOwnerInfo();
@@ -43,7 +44,6 @@
 
 
             function getOwnerInfo(){
-                        var apiUrl = 'https://api.github.com/users/lang-devbr';
                         fetch(apiUrl).then(response => {
                         return response.json();
                         }).then(data => {
@@ -73,7 +73,6 @@
             }
 
             function getReposInfo(){
-                        var apiUrl = 'https://api.github.com/users/lang-devbr/repos';
                         fetch(apiUrl).then(response => {
                         return response.json();
                         }).then(data => {
