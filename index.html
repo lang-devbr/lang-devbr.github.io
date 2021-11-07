@@ -92,6 +92,12 @@
                         }).then(data => {
                        
                         for(item in data){
+
+                            //Removing some default repos, this exists only for overview on my github
+                            if (data[item].name.includes("lang-devbr")) {
+                                continue;
+                            }
+
                             var node = document.createElement("li");
                             var link = document.createElement("a");
                             link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
