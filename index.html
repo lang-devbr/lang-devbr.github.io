@@ -1,121 +1,139 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <title>lang-devbr</title>
-        <link rel="shortcut icon" href="favicon.ico" />
-        <style>
-            @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: Roboto Mono,monospace;
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                min-height: 100%
-            }
-        </style>
-    </head>
-    <body>
-        <p></p>
-        <center>
-            <img id="imgPerfil" alt="perfil" style="border-radius: 50%;border: 1px solid #0000002f;" width="200" />
-            <span id="userInfo"></span>
-            <p>===================================</p>
-            <p>Find me on LinkedIn or GitHub:</p>
-            <div style="width: 100%; display: inline-block;">
-                <div style="display: inline-block;">
-                    <a href="https://github.com/lang-devbr" target="_blank">
-                        <img alt="github" src="images/github.png" width="50" />
-                    </a>
-                </div>
-                <div style="display: inline-block;">
-                    <a href="https://www.linkedin.com/in/luiz-lang-07786457/" target="_blank">
-                        <img alt="linkedin" src="images/linkedin.png" width="50" />
-                    </a>
-                </div>
+<head>
+    <title>lang-devbr</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Roboto Mono,monospace;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-height: 100%;
+            background-color: white;
+            color: black;
+        }
+
+        .dark-mode {
+            background-color: #403d3d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <p></p>
+    <center>
+        <img id="imgPerfil" alt="perfil" style="border-radius: 50%;border: 1px solid #0000002f;" width="200" />
+        <span id="userInfo"></span>
+        <p>===================================</p>
+        <p>Find me on LinkedIn or GitHub:</p>
+        <div style="width: 100%; display: inline-block;">
+            <div style="display: inline-block;">
+                <a href="https://github.com/lang-devbr" target="_blank">
+                    <img alt="github" src="images/github.png" width="50" />
+                </a>
             </div>
-            <p>Check some of my repositories on GitHub:</p>
-            <ul id="listRepos" style="list-style: none;"></ul>
-            <p>===================================</p>
-            <div style="width: 100%; display: inline-block;">
-                ©
-                <span style="font-size:small;">
-                    Copyright - <span id="copyYear"></span>.
-                </span>
+            <div style="display: inline-block;">
+                <a href="https://www.linkedin.com/in/luiz-lang-07786457/" target="_blank">
+                    <img alt="linkedin" src="images/linkedin.png" width="50" />
+                </a>
             </div>
-        </center>
-        <script>
+        </div>
+        <p>Check some of my repositories on GitHub:</p>
+        <ul id="listRepos" style="list-style: none;"></ul>
+        <p>===================================</p>
+        <div style="width: 100%; display: inline-block;">
+            ©
+            <span style="font-size:small;">
+                Copyright - <span id="copyYear"></span>.
+            </span>
+        </div>
+        <p style="width: auto">
+            <div style="cursor:pointer;width:1%">
+                <img src="images/darkmode.png" alt="dark mode" onclick="setDarkMode();" width="20" />
+            </div>
+        </p>
+    </center>
+    <script>
 
-            var apiUrl = 'https://api.github.com/users/lang-devbr';
-            setCopyrightYear();
-            getReposInfo();
-            getOwnerInfo();
+        var apiUrl = 'https://api.github.com/users/lang-devbr';
+        setCopyrightYear();
+        getReposInfo();
+        getOwnerInfo();
 
-            function setCopyrightYear(){
-                var copyYear = document.getElementById("copyYear");
-                var year = new Date().getFullYear();
-                copyYear.innerHTML = year.toString();
-            }
+        function setDarkMode() {
+            var element = document.body;
+            element.classList.toggle("dark-mode");
+        }
+
+        function setCopyrightYear() {
+            var copyYear = document.getElementById("copyYear");
+            var year = new Date().getFullYear();
+            copyYear.innerHTML = year.toString();
+        }
 
 
-            function getOwnerInfo(){
-                        fetch(apiUrl).then(response => {
-                        return response.json();
-                        }).then(data => {
+        function getOwnerInfo() {
+            fetch(apiUrl).then(response => {
+                return response.json();
+            }).then(data => {
 
-                        var imgPerfil = document.getElementById("imgPerfil");
-                        imgPerfil.setAttribute("src", data.avatar_url);
-                        
-                        var userInfo = document.getElementById("userInfo");
-                        var name = document.createElement("p");
-                        var bio = document.createElement("p");
-                        var work = document.createElement("p");
-                        var email = document.createElement("p");
+                var imgPerfil = document.getElementById("imgPerfil");
+                imgPerfil.setAttribute("src", data.avatar_url);
 
-                        name.innerHTML = data.name;
-                        bio.innerHTML = data.bio;
-                        work.innerHTML = data.company;
-                        email.innerHTML = data.email;
+                var userInfo = document.getElementById("userInfo");
+                var name = document.createElement("p");
+                var bio = document.createElement("p");
+                var work = document.createElement("p");
+                var email = document.createElement("p");
 
-                        userInfo.appendChild(name);
-                        userInfo.appendChild(bio);
-                        userInfo.appendChild(work);
-                        userInfo.appendChild(email);
+                name.innerHTML = data.name;
+                bio.innerHTML = data.bio;
+                work.innerHTML = data.company;
+                email.innerHTML = data.email;
 
-                        }).catch(err => {
-                            console.log(err);
-                        });
-            }
+                userInfo.appendChild(name);
+                userInfo.appendChild(bio);
+                userInfo.appendChild(work);
+                userInfo.appendChild(email);
 
-            function getReposInfo(){
-                        fetch(apiUrl.concat('/repos')).then(response => {
-                        return response.json();
-                        }).then(data => {
-                       
-                        for(item in data){
+            }).catch(err => {
+                console.log(err);
+            });
+        }
 
-                            //Removing some default repos, this exists only for overview on my github
-                            if (data[item].name.includes("lang-devbr")) {
-                                continue;
-                            }
+        function getReposInfo() {
+            fetch(apiUrl.concat('/repos')).then(response => {
+                return response.json();
+            }).then(data => {
 
-                            var node = document.createElement("li");
-                            var link = document.createElement("a");
-                            link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
-                            link.text = data[item].name;
-                            link.target = "_blank";
-                            node.appendChild(link);
-                            document.getElementById("listRepos").appendChild(node); 
-                        }
-                        }).catch(err => {
-                            var node = document.createElement("li");
-                            var textNode = document.createTextNode(err);
-                            node.appendChild(textNode);
-                            document.getElementById("listRepos").appendChild(node); 
-                        });
-            }
-        </script>
-    </body>
+                for (item in data) {
+
+                    //Removing some default repos, this exists only for overview on my github
+                    if (data[item].name.includes("lang-devbr")) {
+                        continue;
+                    }
+
+                    var node = document.createElement("li");
+                    var link = document.createElement("a");
+                    link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
+                    link.text = data[item].name;
+                    link.target = "_blank";
+                    node.appendChild(link);
+                    document.getElementById("listRepos").appendChild(node);
+                }
+            }).catch(err => {
+                var node = document.createElement("li");
+                var textNode = document.createTextNode(err);
+                node.appendChild(textNode);
+                document.getElementById("listRepos").appendChild(node);
+            });
+        }
+    </script>
+</body>
 </html>
