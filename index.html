@@ -55,7 +55,7 @@
         </div>
         <p style="width: auto">
             <div style="cursor:pointer;width:1%">
-                <img src="images/darkmode.png" alt="dark mode" onclick="setDarkMode();" width="20" />
+                <img id="btnDark" src="images/sun.png" alt="dark mode" onclick="setDarkMode();" width="20"/>
             </div>
         </p>
     </center>
@@ -69,6 +69,15 @@
         function setDarkMode() {
             var element = document.body;
             element.classList.toggle("dark-mode");
+
+            var value = document.getElementById("btnDark").getAttribute("src");
+            var light = "";
+
+            if (value == "images/sun.png") {
+                light = "-light";
+            }
+
+            document.getElementById("btnDark").setAttribute("src", "images/sun" + light + ".png");
         }
 
         function setCopyrightYear() {
