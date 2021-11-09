@@ -57,96 +57,98 @@
                 Copyright - <span id="copyYear"></span>.
             </span>
         </div>
+    </center>
+    <div style="position:fixed;top:1px;right:15px">
         <p style="width: auto">
             <div style="cursor:pointer;width:1%">
-                <img id="btnDark" src="images/sun.png" alt="dark mode" onclick="setDarkMode();" width="20"/>
+                <img id="btnDark" src="images/sun.png" alt="dark mode" onclick="setDarkMode();" width="20" />
             </div>
         </p>
-    </center>
-    <script>
-
-        var apiUrl = 'https://api.github.com/users/lang-devbr';
-        setCopyrightYear();
-        getReposInfo();
-        getOwnerInfo();
-
-
-        function setLinkColor(item) {
-            item.classList.toggle("dark-mode-a");
-        }
-
-        function setDarkMode() {
-            var element = document.body;
-            element.classList.toggle("dark-mode");
-            const a = document.querySelectorAll("a");
-            a.forEach(setLinkColor);
-            var value = document.getElementById("btnDark").getAttribute("src");
-            document.getElementById("btnDark").setAttribute("src", "images/sun" + (value == "images/sun.png" ? "-light" : "") + ".png");
-        }
-
-        function setCopyrightYear() {
-            var copyYear = document.getElementById("copyYear");
-            var year = new Date().getFullYear();
-            copyYear.innerHTML = year.toString();
-        }
-
-
-        function getOwnerInfo() {
-            fetch(apiUrl).then(response => {
-                return response.json();
-            }).then(data => {
-
-                var imgPerfil = document.getElementById("imgPerfil");
-                imgPerfil.setAttribute("src", data.avatar_url);
-
-                var userInfo = document.getElementById("userInfo");
-                var name = document.createElement("p");
-                var bio = document.createElement("p");
-                var work = document.createElement("p");
-                var email = document.createElement("p");
-
-                name.innerHTML = data.name;
-                bio.innerHTML = data.bio;
-                work.innerHTML = data.company;
-                email.innerHTML = data.email;
-
-                userInfo.appendChild(name);
-                userInfo.appendChild(bio);
-                userInfo.appendChild(work);
-                userInfo.appendChild(email);
-
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-
-        function getReposInfo() {
-            fetch(apiUrl.concat('/repos')).then(response => {
-                return response.json();
-            }).then(data => {
-
-                for (item in data) {
-
-                    //Removing some default repos, this exists only for overview on my github
-                    if (data[item].name.includes("lang-devbr")) {
-                        continue;
-                    }
-
-                    var node = document.createElement("li");
-                    var link = document.createElement("a");
-                    link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
-                    link.text = data[item].name;
-                    link.target = "_blank";
-                    node.appendChild(link);
-                    document.getElementById("listRepos").appendChild(node);
-                }
-            }).catch(err => {
-                var node = document.createElement("li");
-                var textNode = document.createTextNode(err);
-                node.appendChild(textNode);
-                document.getElementById("listRepos").appendChild(node);
-            });
-        }
-    </script>
+    </div>
 </body>
+<script>
+
+    var apiUrl = 'https://api.github.com/users/lang-devbr';
+    setCopyrightYear();
+    getReposInfo();
+    getOwnerInfo();
+
+
+    function setLinkColor(item) {
+        item.classList.toggle("dark-mode-a");
+    }
+
+    function setDarkMode() {
+        var element = document.body;
+        element.classList.toggle("dark-mode");
+        const a = document.querySelectorAll("a");
+        a.forEach(setLinkColor);
+        var value = document.getElementById("btnDark").getAttribute("src");
+        document.getElementById("btnDark").setAttribute("src", "images/sun" + (value == "images/sun.png" ? "-light" : "") + ".png");
+    }
+
+    function setCopyrightYear() {
+        var copyYear = document.getElementById("copyYear");
+        var year = new Date().getFullYear();
+        copyYear.innerHTML = year.toString();
+    }
+
+
+    function getOwnerInfo() {
+        fetch(apiUrl).then(response => {
+            return response.json();
+        }).then(data => {
+
+            var imgPerfil = document.getElementById("imgPerfil");
+            imgPerfil.setAttribute("src", data.avatar_url);
+
+            var userInfo = document.getElementById("userInfo");
+            var name = document.createElement("p");
+            var bio = document.createElement("p");
+            var work = document.createElement("p");
+            var email = document.createElement("p");
+
+            name.innerHTML = data.name;
+            bio.innerHTML = data.bio;
+            work.innerHTML = data.company;
+            email.innerHTML = data.email;
+
+            userInfo.appendChild(name);
+            userInfo.appendChild(bio);
+            userInfo.appendChild(work);
+            userInfo.appendChild(email);
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    function getReposInfo() {
+        fetch(apiUrl.concat('/repos')).then(response => {
+            return response.json();
+        }).then(data => {
+
+            for (item in data) {
+
+                //Removing some default repos, this exists only for overview on my github
+                if (data[item].name.includes("lang-devbr")) {
+                    continue;
+                }
+
+                var node = document.createElement("li");
+                var link = document.createElement("a");
+                link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
+                link.text = data[item].name;
+                link.target = "_blank";
+                node.appendChild(link);
+                document.getElementById("listRepos").appendChild(node);
+            }
+        }).catch(err => {
+            var node = document.createElement("li");
+            var textNode = document.createTextNode(err);
+            node.appendChild(textNode);
+            document.getElementById("listRepos").appendChild(node);
+        });
+    }
+</script>
 </html>
