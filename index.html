@@ -23,6 +23,10 @@
             background-color: #403d3d;
             color: white;
         }
+
+        .dark-mode-a {
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -66,18 +70,18 @@
         getReposInfo();
         getOwnerInfo();
 
+
+        function setLinkColor(item) {
+            item.classList.toggle("dark-mode-a");
+        }
+
         function setDarkMode() {
             var element = document.body;
             element.classList.toggle("dark-mode");
-
+            const a = document.querySelectorAll("a");
+            a.forEach(setLinkColor);
             var value = document.getElementById("btnDark").getAttribute("src");
-            var light = "";
-
-            if (value == "images/sun.png") {
-                light = "-light";
-            }
-
-            document.getElementById("btnDark").setAttribute("src", "images/sun" + light + ".png");
+            document.getElementById("btnDark").setAttribute("src", "images/sun" + (value == "images/sun.png" ? "-light" : "") + ".png");
         }
 
         function setCopyrightYear() {
