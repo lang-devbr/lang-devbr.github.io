@@ -66,13 +66,24 @@
         </p>
     </div>
 </body>
-<script>
+</html>
+<script type="text/javascript">
 
-    var apiUrl = 'https://api.github.com/users/lang-devbr';
+    var apiUrl = "https://api.github.com/users/lang-devbr";
     setCopyrightYear();
     getReposInfo();
     getOwnerInfo();
+    setLoadDarkMode();
 
+    function setLoadDarkMode() {
+        var element = document.body;
+        const darkMode = localStorage.getItem("darkMode");
+
+        if (darkMode == "true") {
+            document.getElementById("btnDark").setAttribute("src", "images/sun-light.png");
+            element.className = "dark-mode";
+        }
+    }
 
     function setLinkColor(item) {
         item.classList.toggle("dark-mode-a");
@@ -84,7 +95,9 @@
         const a = document.querySelectorAll("a");
         a.forEach(setLinkColor);
         var value = document.getElementById("btnDark").getAttribute("src");
-        document.getElementById("btnDark").setAttribute("src", "images/sun" + (value == "images/sun.png" ? "-light" : "") + ".png");
+        var imageSun = "images/sun" + (value == "images/sun.png" ? "-light" : "") + ".png";
+        document.getElementById("btnDark").setAttribute("src", imageSun);
+        localStorage.setItem("darkMode", (value == "images/sun.png" ? true : false));
     }
 
     function setCopyrightYear() {
@@ -128,6 +141,8 @@
             return response.json();
         }).then(data => {
 
+            const darkMode = localStorage.getItem("darkMode");
+
             for (item in data) {
 
                 //Removing some default repos, this exists only for overview on my github
@@ -139,6 +154,11 @@
                 var link = document.createElement("a");
                 link.href = data[item].owner.html_url.concat("/").concat(data[item].name);
                 link.text = data[item].name;
+
+                if (darkMode == "true") {
+                    link.className = "dark-mode-a";
+                }
+
                 link.target = "_blank";
                 node.appendChild(link);
                 document.getElementById("listRepos").appendChild(node);
@@ -151,4 +171,3 @@
         });
     }
 </script>
-</html>
